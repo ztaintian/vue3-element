@@ -1,5 +1,5 @@
 <template>
-  <div>page1的值是:{{ number }}</div>
+  <div>page1的值是22:{{ number }}</div>
 </template>
 
 <script>
