@@ -1,18 +1,43 @@
 <template>
-  <div>page1的值是22:{{ number }}</div>
+  <div>
+    {{ name }} {{ counter }}
+    <p @click="changeName">改变</p>
+    {{age}}
+  </div>
 </template>
 
 <script>
-import {mixin} from "../mixin/mixin"
+import { defineComponent, reactive, ref, toRefs } from "vue";
 export default {
-  mixins: [mixin],
-  data() {
-    return {};
+  props: {
+    test: {
+      type: Object,
+      default: () => {
+        return { name: "d" };
+      },
+    },
   },
-  mounted() {
-    console.log('minxin')
-    this.number++
-  }
+  setup(props, context) {
+    console.log("context", context);
+    const counter = ref(0);
+    console.log("props===>", props);
+    var state = reactive({
+      age:0
+    })
+    const { name } = toRefs(props.test);
+    function changeName() {
+      console.log(33131);
+      counter.value++;
+      name.value = 'dada'
+      state.age++
+    }
+    return {
+      ...toRefs(state),
+      changeName,
+      counter,
+      name,
+    };
+  },
 };
 </script>
 
