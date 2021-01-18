@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <button @click="method1">page1</button>
+    <button class="page1" @click="method1">page1</button>
     <button @click="method2">page2</button>
     <router-view></router-view>
   </div>
@@ -20,7 +20,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="stylus">
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -28,5 +28,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  .page1 {
+    color red
+  }
 }
 </style>
