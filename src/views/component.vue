@@ -1,14 +1,14 @@
 <template>
   <div>
-    <upload></upload>
+    <verification-code></verification-code>
   </div>
 </template>
 
 <script>
-import upload from "/@/components/upload";
+import VerificationCode from "/@/components/VerificationCode/index.vue";
 export default {
   components: {
-    upload,
+    VerificationCode,
   },
 };
 </script>

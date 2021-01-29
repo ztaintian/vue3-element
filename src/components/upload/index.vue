@@ -96,11 +96,11 @@ export default {
         console.log(files.name.length);
         if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG|bmp)$/.test(files.name)) {
           this.$toast("图片类型必须是.gif,jpeg,jpg,png,bmp中的一种");
-          return false;
+          return;
         }
-        // else if(files.name.length>35) {
+        // if(files.name.length>35) {
         //     this.$toast("图片文件名过长")
-        //     return false;
+        //     return;
         // }
         else if (files.size / (1024 * 1024) > 10) {
           this.$toast({
