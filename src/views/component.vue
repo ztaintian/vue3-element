@@ -1,6 +1,6 @@
 <template>
   <div>
-    <verification-code></verification-code>
+    <verification-code @onCompleted="onCompleted"></verification-code>
   </div>
 </template>
 
@@ -9,6 +9,15 @@ import VerificationCode from "/@/components/VerificationCode/index.vue";
 export default {
   components: {
     VerificationCode,
+  },
+  setup() {
+    // 校验码
+    const onCompleted = (value) => {
+      console.log(value);
+    };
+    return {
+      onCompleted,
+    };
   },
 };
 </script>

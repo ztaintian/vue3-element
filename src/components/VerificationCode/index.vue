@@ -6,6 +6,7 @@
         @click="inputLast"
         id="textarea-1"
         maxlength="4"
+        autocomplete="off"
         @input="numberChange"
         v-model="inputValue"
         class="input"
@@ -22,6 +23,7 @@
 </template>
 
 <script>
+import { reactive, toRefs, onMounted } from "vue";
 // 完整组件 直接用
 export default {
   name: "VerificationCodeInput",
@@ -31,30 +33,30 @@ export default {
       default: 4,
     },
   },
-  data() {
-    return {
+  setup(props, { emit }) {
+    // data
+    let data = reactive({
       inputValue: "",
       arrNumber: [],
-      temp: "",
+    });
+    // onMounted
+    onMounted(() => {
+      data.arrNumber = new Array(props.amount).fill("");
+    });
+    // methods
+    const numberChange = () => {
+      data.arrNumber = new Array(props.amount).fill("");
+      data.inputValue = data.inputValue.slice(0, 4);
+      data.inputValue = validateNumber(data.inputValue);
+      data.inputValue.split("").map((item, index) => {
+        data.arrNumber[index] = item;
+      });
+      emit("onCompleted", data.arrNumber.join(""));
     };
-  },
-  mounted() {
-    this.code = new Array(this.amount).fill("");
-    this.arrNumber = new Array(this.amount).fill("");
-  },
-  methods: {
-    validateNumber(val) {
+    const validateNumber = (val) => {
       return val.replace(/\D/g, "");
-    },
-    inputLast() {
-      this.setCss();
-    },
-    setCss() {
-      var sr = document.getElementById("textarea-1");
-      var len = sr.value.length;
-      this.setSelectionRange(sr, len, len); //将光标定位到文本最后
-    },
-    setSelectionRange(input, selectionStart, selectionEnd) {
+    };
+    const setSelectionRange = (input, selectionStart, selectionEnd) => {
       if (input.setSelectionRange) {
         input.focus();
         input.setSelectionRange(selectionStart, selectionEnd);
@@ -65,33 +67,34 @@ export default {
         range.moveStart("character", selectionStart);
         range.select();
       }
-    },
-
-    numberChange() {
-      this.arrNumber = new Array(this.amount).fill("");
-      this.inputValue = this.inputValue.slice(0, 4);
-      this.inputValue = this.validateNumber(this.inputValue);
-      this.inputValue.split("").map((item, index) => {
-        this.arrNumber[index] = item;
-      });
-      this.$emit("onCompleted", this.arrNumber.join(""));
-    },
-    validateNumber(val) {
-      // 替换非数字的值为空
-      return val.replace(/\D/g, "");
-    },
+    };
+    // 初始化
+    const setCss = () => {
+      var sr = document.getElementById("textarea-1");
+      var len = sr.value.length;
+      setSelectionRange(sr, len, len); //将光标定位到文本最后
+    };
+    const inputLast = () => {
+      setCss();
+    };
+    return {
+      ...toRefs(data),
+      inputLast,
+      numberChange,
+    };
   },
 };
 </script>
 
 <style lang="stylus">
 .ys-verification {
+  display: flex;
+  align-items center
   .content {
     height: 40px;
-    width: 200px;
-    margin: 20px 0 20px 20px;
+    min-width: 200px;
     position: relative;
-
+    margin: 0 0 0  20px;
     .input {
       width: 180px;
       opacity: 0;
