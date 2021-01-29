@@ -1,43 +1,42 @@
 <template>
   <div>
-    page2的值是:{{ name }}
-    <p @click="changeName">dfasdasd</p>
-    {{changeData1}}
+    <div>{{ girl }}</div>
+    <div>{{ boy }}</div>
+    <button @click="changeGirls">改变我的女孩</button>
+    <upload></upload>
   </div>
 </template>
 
 <script>
-import { toRefs, ref, onRenderTracked, toRaw, reactive } from "vue";
+import { reactive, toRefs, watch, ref } from "vue";
+import dayjs from 'dayjs'
+import upload from "/@/components/upload/index.vue";
 export default {
-  data() {
-    return {};
+  components: {
+    upload
   },
+  name: "App",
   setup() {
-    const data1 = reactive({
-      name: "tmc",
-      age: 25,
+    console.log(dayjs().format('YYYY-MM-DD'))
+    const boy = ref("我是男孩");
+    const data = reactive({
+      girl: "女孩",
+      changeGirls: () => {
+        data.girl = "男孩";
+        boy.value = data.girl;
+      },
     });
-    const data2 = ref(666);
-
-    const changeData1 = toRaw(data1.name);
-    const changeData2 = toRaw(data2.value);
-
-    onRenderTracked((e) => {
-      console.log(e);
-      console.log("状态跟踪");
-    });
-    function changeName() {
-      data1.name = "99999";
-      console.log("dadada", changeData1);
-    }
+    watch(
+      () => data.girl,
+      (newvalue, oldvalue) => {
+        console.log(newvalue);
+        console.log(oldvalue);
+      }
+    );
     return {
-      ...toRefs(data1),
-      ...toRefs(data2),
-      changeName,
-      changeData1
+      ...toRefs(data),
+      boy,
     };
   },
 };
 </script>
-
-<style scoped></style>

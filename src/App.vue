@@ -2,6 +2,7 @@
   <div id="app">
     <button class="page1" @click="method1">page1</button>
     <button @click="method2">page2</button>
+    <button @click="method3">component</button>
     <router-view></router-view>
   </div>
 </template>
@@ -15,6 +16,9 @@ export default {
     },
     method2() {
       this.$router.push("/page2");
+    },
+    method3() {
+      this.$router.push("/component");
     },
   },
 };
