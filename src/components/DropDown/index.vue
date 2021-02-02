@@ -1,10 +1,6 @@
 <template>
   <div class="drop-down">
-    <input
-      v-model="searchValue"
-      @blur="blurInput"
-      @focus="focusInput"
-    />
+    <input v-model="searchValue" @blur="blurInput" @focus="focusInput" />
     <div class="list-module" v-if="listShow">
       <p v-for="(item, index) in datalist" @click="appClick(item)" :key="index">
         <span class="list-item-text">{{ item.title }}</span>
